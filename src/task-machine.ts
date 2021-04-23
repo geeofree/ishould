@@ -11,6 +11,11 @@ export enum TASK_TYPE {
   FINISHED,
 }
 
+interface Key {
+  return: boolean;
+  escape: boolean;
+}
+
 interface Task {
   id: string;
   name: string;
@@ -33,7 +38,7 @@ export const DEFAULT_TASK_MACHINE_STATE: TaskMachineState = {
 
 export const taskMachine = create((set, get) => ({
   ...DEFAULT_TASK_MACHINE_STATE,
-  transition(input: string): void {
+  transition(input: string, key: Key): void {
     switch (get().mode) {
       case MODE.NORMAL: {
         switch (true) {
@@ -53,6 +58,10 @@ export const taskMachine = create((set, get) => ({
             });
             break;
 
+          case input === "o":
+            set(() => ({ mode: MODE.INSERT }));
+            break;
+
           default:
             // NOOP
             break;
@@ -61,6 +70,11 @@ export const taskMachine = create((set, get) => ({
       }
 
       case MODE.INSERT: {
+        switch (true) {
+          case key.escape:
+            set(() => ({ mode: MODE.NORMAL }));
+            break;
+        }
         break;
       }
 

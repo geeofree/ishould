@@ -50,4 +50,23 @@ describe("Task Machine", () => {
     transition("k");
     expect(getState().currentRow).toBe(0);
   });
+
+  it("Should go from NORMAL to INSERT mode using 'o'", () => {
+    const { getState } = taskMachine;
+    const { transition } = getState();
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    transition("o");
+    expect(getState().mode).toBe(MODE.INSERT);
+  });
+
+  it("Should go from INSERT to NORMAL mode using 'ESC'", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({ mode: MODE.INSERT });
+    expect(getState().mode).toBe(MODE.INSERT);
+    transition(null, { escape: true });
+    expect(getState().mode).toBe(MODE.NORMAL);
+  });
 });
