@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/geeofree/ishould#readme",
   "dependencies": {
+    "ink": "^3.0.8",
     "nanoid": "^3.1.22",
     "zustand": "^3.4.1"
   },
