@@ -14,7 +14,7 @@ describe("Task Machine", () => {
     taskMachine.setState(DEFAULT_TASK_MACHINE_STATE);
   });
 
-  it("Should be able to cycle forwards on the row when in NORMAL mode", () => {
+  test("Should be able to cycle forwards on the row when in NORMAL mode", () => {
     const { setState, getState } = taskMachine;
     const { transition } = getState();
 
@@ -35,7 +35,7 @@ describe("Task Machine", () => {
     expect(getState().currentRow).toBe(0);
   });
 
-  it("Should be able to cycle backwards on the row when in NORMAL mode", () => {
+  test("Should be able to cycle backwards on the row when in NORMAL mode", () => {
     const { setState, getState } = taskMachine;
     const { transition } = getState();
 
@@ -56,26 +56,7 @@ describe("Task Machine", () => {
     expect(getState().currentRow).toBe(0);
   });
 
-  it("Should go from NORMAL to INSERT mode", () => {
-    const { getState } = taskMachine;
-    const { transition } = getState();
-
-    expect(getState().mode).toBe(MODE.NORMAL);
-    transition("o");
-    expect(getState().mode).toBe(MODE.INSERT);
-  });
-
-  it("Should go from INSERT to NORMAL mode", () => {
-    const { getState, setState } = taskMachine;
-    const { transition } = getState();
-
-    setState({ mode: MODE.INSERT });
-    expect(getState().mode).toBe(MODE.INSERT);
-    transition("", { escape: true });
-    expect(getState().mode).toBe(MODE.NORMAL);
-  });
-
-  it("Should insert a draft task on the next row when transitioning from NORMAL to INSERT", () => {
+  test("Should be able to insert a draft task", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -83,7 +64,10 @@ describe("Task Machine", () => {
     const randomIndex = getRandomIndex(sampleTasks);
 
     setState({ tasks: sampleTasks, currentRow: randomIndex });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
     transition("o");
+    expect(getState().mode).toBe(MODE.INSERT);
 
     const nextRow = randomIndex + 1;
     const insertedTaskAtRandomIndex = getState().tasks[nextRow];
@@ -94,7 +78,7 @@ describe("Task Machine", () => {
     expect(insertedTaskAtRandomIndex.name).toBe("");
   });
 
-  it("Should be able to update the draft task's name during INSERT mode", () => {
+  test("Should be able to update the draft task's name during INSERT mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -117,7 +101,7 @@ describe("Task Machine", () => {
     expect(taskAtRandomIndex.name).toBe(randomString);
   });
 
-  it("Should not commit a draft task when inputted with 'ESCAPE' during INSERT mode", () => {
+  test("Should be able to discard a task and transition from INSERT to NORMAL", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -139,7 +123,7 @@ describe("Task Machine", () => {
     expect(getState().tasks).toEqual(sampleTasks);
   });
 
-  it("Should be able to commit a draft task then transition to NORMAL mode from INSERT mode", () => {
+  test("Should be able to commit a draft task then transition from INSERT to NORMAL mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -163,7 +147,7 @@ describe("Task Machine", () => {
     expect(committedTask.type).toEqual(TASK_TYPE.ONGOING);
   });
 
-  it("Should be able to commit a draft task then insert a new one right after it during INSERT mode", () => {
+  test("Should be able to commit a draft task behind the current draft task in INSERT mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -183,15 +167,15 @@ describe("Task Machine", () => {
     expect(getState().tasks.length).toBe(sampleTasks.length + 2);
 
     const committedTask = getState().tasks[randomIndex + 1];
-    expect(committedTask.name).toEqual(randomString);
     expect(committedTask.type).toEqual(TASK_TYPE.ONGOING);
+    expect(committedTask.name).toEqual(randomString);
 
     const draftTask = getState().tasks[randomIndex + 2];
-    expect(draftTask.name).toEqual("");
     expect(draftTask.type).toEqual(TASK_TYPE.DRAFT);
+    expect(draftTask.name).toEqual("");
   });
 
-  it("Should not be able to commit a draft task when it contains an empty name", () => {
+  test("Should not be able to commit a draft task when it contains an empty name", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
