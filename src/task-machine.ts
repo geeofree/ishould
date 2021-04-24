@@ -1,8 +1,9 @@
 import { nanoid } from "nanoid";
 import create from "zustand/vanilla";
 import { MODE, TASK_TYPE } from "./types/enums";
-import { Key, Task, TaskMachineState } from "./types/interfaces";
+import { Task, TaskMachineState } from "./types/interfaces";
 import { insertAtIndex, removeAtIndex } from "./utils";
+import { Key } from "ink";
 
 export function createTask(taskType: TASK_TYPE, taskName = ""): Task {
   return {
