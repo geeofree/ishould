@@ -47,7 +47,6 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
             case input === "k":
               set((state) => {
                 const prevRow = state.currentRow - 1;
-
                 return {
                   currentRow: prevRow < 0 ? state.tasks.length - 1 : prevRow,
                 };
@@ -154,6 +153,21 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
                   currentRow: nextCurrentRow < 0 ? 0 : nextCurrentRow,
                 };
               });
+              break;
+
+            case key?.leftArrow:
+              set((state) => ({
+                currentCol: Math.max(state.currentCol - 1, 0),
+              }));
+              break;
+
+            case key?.rightArrow:
+              set((state) => ({
+                currentCol: Math.min(
+                  state.currentCol + 1,
+                  state.getCurrentTask().name.length
+                ),
+              }));
               break;
 
             default:

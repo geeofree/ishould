@@ -250,4 +250,58 @@ describe("Task Machine", () => {
     transition("i");
     expect(getState().currentCol).toBe(getState().getCurrentTask().name.length);
   });
+
+  test("Should be able to move column value forwards when task is being updated", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const textString = "hello";
+
+    setState({
+      tasks: [createTask(TASK_TYPE.ONGOING, textString)],
+      currentCol: 0,
+      mode: MODE.INSERT,
+    });
+
+    expect(getState().currentCol).toBe(0);
+    transition("", { rightArrow: true });
+    expect(getState().currentCol).toBe(1);
+    transition("", { rightArrow: true });
+    expect(getState().currentCol).toBe(2);
+    transition("", { rightArrow: true });
+    expect(getState().currentCol).toBe(3);
+    transition("", { rightArrow: true });
+    expect(getState().currentCol).toBe(4);
+    transition("", { rightArrow: true });
+    expect(getState().currentCol).toBe(textString.length);
+    transition("", { rightArrow: true });
+    expect(getState().currentCol).toBe(5);
+  });
+
+  test("Should be able to move column value backwards when task is being updated", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const textString = "hello";
+
+    setState({
+      tasks: [createTask(TASK_TYPE.ONGOING, textString)],
+      currentCol: textString.length,
+      mode: MODE.INSERT,
+    });
+
+    expect(getState().currentCol).toBe(textString.length);
+    transition("", { leftArrow: true });
+    expect(getState().currentCol).toBe(textString.length - 1);
+    transition("", { leftArrow: true });
+    expect(getState().currentCol).toBe(textString.length - 2);
+    transition("", { leftArrow: true });
+    expect(getState().currentCol).toBe(textString.length - 3);
+    transition("", { leftArrow: true });
+    expect(getState().currentCol).toBe(textString.length - 4);
+    transition("", { leftArrow: true });
+    expect(getState().currentCol).toBe(0);
+    transition("", { leftArrow: true });
+    expect(getState().currentCol).toBe(0);
+  });
 });
