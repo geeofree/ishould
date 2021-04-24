@@ -213,4 +213,41 @@ describe("Task Machine", () => {
     expect(draftTask.name).toEqual("");
     expect(draftTask.type).toEqual(TASK_TYPE.DRAFT);
   });
+
+  test("Should provide a way for a committed task to go into a DRAFT state where it can be updated", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const sampleTasks = Array(5)
+      .fill()
+      .map(() => createTask(TASK_TYPE.ONGOING, randomString));
+    const randomIndex = getRandomIndex(sampleTasks);
+
+    setState({ tasks: sampleTasks, currentRow: randomIndex });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
+
+    transition("i");
+    expect(getState().currentRow).toBe(randomIndex);
+    expect(getState().mode).toBe(MODE.INSERT);
+
+    const currentTask = getState().getCurrentTask();
+    expect(currentTask.type).toBe(TASK_TYPE.DRAFT);
+  });
+
+  test("When a committed task is going into DRAFT state, current column value should be equal to that committed task's name initially", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const sampleTasks = Array(5)
+      .fill()
+      .map(() => createTask(TASK_TYPE.ONGOING, randomString));
+    const randomIndex = getRandomIndex(sampleTasks);
+
+    setState({ tasks: sampleTasks, currentRow: randomIndex });
+
+    transition("i");
+    expect(getState().currentCol).toBe(getState().getCurrentTask().name.length);
+  });
 });
