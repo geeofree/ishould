@@ -14,7 +14,7 @@ describe("Task Machine", () => {
     taskMachine.setState(DEFAULT_TASK_MACHINE_STATE);
   });
 
-  it("Should be able to cycle forwards on the row when in NORMAL mode using 'j'", () => {
+  it("Should be able to cycle forwards on the row when in NORMAL mode", () => {
     const { setState, getState } = taskMachine;
     const { transition } = getState();
 
@@ -35,7 +35,7 @@ describe("Task Machine", () => {
     expect(getState().currentRow).toBe(0);
   });
 
-  it("Should be able to cycle backwards on the row when in NORMAL mode using 'k'", () => {
+  it("Should be able to cycle backwards on the row when in NORMAL mode", () => {
     const { setState, getState } = taskMachine;
     const { transition } = getState();
 
@@ -56,7 +56,7 @@ describe("Task Machine", () => {
     expect(getState().currentRow).toBe(0);
   });
 
-  it("Should go from NORMAL to INSERT mode using 'o'", () => {
+  it("Should go from NORMAL to INSERT mode", () => {
     const { getState } = taskMachine;
     const { transition } = getState();
 
@@ -65,7 +65,7 @@ describe("Task Machine", () => {
     expect(getState().mode).toBe(MODE.INSERT);
   });
 
-  it("Should go from INSERT to NORMAL mode using 'ESC'", () => {
+  it("Should go from INSERT to NORMAL mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -94,7 +94,7 @@ describe("Task Machine", () => {
     expect(insertedTaskAtRandomIndex.name).toBe("");
   });
 
-  it("Should be able to update the draft task's name during insert mode", () => {
+  it("Should be able to update the draft task's name during INSERT mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -139,7 +139,7 @@ describe("Task Machine", () => {
     expect(getState().tasks).toEqual(sampleTasks);
   });
 
-  it("Should be able to commit a draft task when it contains a name and 'RETURN' is inputted during INSERT mode", () => {
+  it("Should be able to commit a draft task then transition to NORMAL mode from INSERT mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -155,6 +155,7 @@ describe("Task Machine", () => {
     transition(randomString);
     transition("", { return: true });
 
+    expect(getState().mode).toBe(MODE.NORMAL);
     expect(getState().tasks.length).toBe(sampleTasks.length + 1);
 
     const committedTask = getState().tasks[randomIndex + 1];
@@ -162,7 +163,7 @@ describe("Task Machine", () => {
     expect(committedTask.type).toEqual(TASK_TYPE.ONGOING);
   });
 
-  it("Commits a draft task then creates a new draft task right afterwards during INSERT mode when 'SHIFT + RETURN' is inputted", () => {
+  it("Should be able to commit a draft task then insert a new one right after it during INSERT mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -178,6 +179,7 @@ describe("Task Machine", () => {
     transition(randomString);
     transition("", { shift: true, return: true });
 
+    expect(getState().mode).toBe(MODE.INSERT);
     expect(getState().tasks.length).toBe(sampleTasks.length + 2);
 
     const committedTask = getState().tasks[randomIndex + 1];
@@ -189,7 +191,7 @@ describe("Task Machine", () => {
     expect(draftTask.type).toEqual(TASK_TYPE.DRAFT);
   });
 
-  it("Should not commit a draft task when it contains an empty name", () => {
+  it("Should not be able to commit a draft task when it contains an empty name", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -203,6 +205,7 @@ describe("Task Machine", () => {
 
     transition("o");
     transition("", { return: true });
+    transition("", { shift: true, return: true });
 
     expect(getState().tasks.length).toBe(sampleTasks.length + 1);
 
