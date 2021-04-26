@@ -349,4 +349,84 @@ describe("Task Machine", () => {
 
     expect(getState().currentRow).toBe(randomIndex);
   });
+
+  test("Should be able to add a prefix to the task's name when updating", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({
+      tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentCol: 0,
+      mode: MODE.INSERT,
+    });
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentCol).toBe(0);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    const testString = "hello world";
+    transition(testString);
+
+    const currentTask = getState().getCurrentTask();
+    expect(getState().currentCol).toBe(testString.length);
+    expect(currentTask.name.length).toBe(
+      randomString.length + testString.length
+    );
+    expect(currentTask.name.substr(0, testString.length)).toBe(testString);
+  });
+
+  test("Should be able to add a suffix to the task's name when updating", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({
+      tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentCol: randomString.length,
+      mode: MODE.INSERT,
+    });
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentCol).toBe(randomString.length);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    const testString = "hello world";
+    transition(testString);
+
+    const currentTask = getState().getCurrentTask();
+    const newTaskNameLength = randomString.length + testString.length;
+
+    expect(getState().currentCol).toBe(newTaskNameLength);
+    expect(currentTask.name.length).toBe(newTaskNameLength);
+    expect(currentTask.name.substr(randomString.length)).toBe(testString);
+  });
+
+  test("Should be able to add an infix to the task's name when updating", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const randomIndex = getRandomNumber(randomString.length - 2, 1);
+
+    setState({
+      tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentCol: randomIndex,
+      mode: MODE.INSERT,
+    });
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentCol).toBe(randomIndex);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    const testString = "hello world";
+    transition(testString);
+
+    const currentTask = getState().getCurrentTask();
+
+    expect(getState().currentCol).toBe(randomIndex + testString.length);
+    expect(currentTask.name.length).toBe(
+      randomString.length + testString.length
+    );
+    expect(currentTask.name.substr(randomIndex, testString.length)).toBe(
+      testString
+    );
+  });
 });

@@ -189,16 +189,27 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
             default:
               set((state) => {
                 const draftTask = state.tasks[state.currentRow];
+
+                const newDraftTaskName = insertAtIndex(
+                  draftTask.name.split(""),
+                  state.currentCol,
+                  input
+                ).join("");
+
                 const newTasks = insertAtIndex(
                   state.tasks,
                   state.currentRow,
                   {
                     ...draftTask,
-                    name: draftTask.name + input,
+                    name: newDraftTaskName,
                   },
                   true
                 );
-                return { tasks: newTasks };
+
+                return {
+                  tasks: newTasks,
+                  currentCol: state.currentCol + input.length,
+                };
               });
               break;
           }
