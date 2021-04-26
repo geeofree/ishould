@@ -5,7 +5,7 @@ import {
   DEFAULT_TASK_MACHINE_STATE,
 } from "../src/task-machine";
 import { MODE, TASK_TYPE } from "../src/types/enums";
-import { getRandomIndex, insertAtIndex } from "../src/utils";
+import { getRandomIndex, getRandomNumber, insertAtIndex } from "../src/utils";
 
 const randomString = nanoid();
 
@@ -287,5 +287,66 @@ describe("Task Machine", () => {
     expect(getState().currentCol).toBe(0);
     transition("", { leftArrow: true });
     expect(getState().currentCol).toBe(0);
+  });
+
+  test("Should be able to remove a committed task", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const sampleTasks = Array(getRandomNumber(21, 5)).fill();
+
+    setState({ tasks: sampleTasks });
+
+    sampleTasks.forEach((_, i) => {
+      expect(getState().mode).toBe(MODE.NORMAL);
+      expect(getState().tasks.length).toBe(sampleTasks.length - i);
+
+      transition("D");
+    });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().tasks.length).toBe(0);
+
+    transition("D");
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().tasks.length).not.toBe(-1);
+  });
+
+  test("When a committed task is removed and the current row is at the end of the task, current row should move backwards", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const sampleTasks = Array(getRandomNumber(20, 5));
+
+    setState({ tasks: sampleTasks, currentRow: sampleTasks.length - 1 });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(sampleTasks.length - 1);
+
+    transition("D");
+
+    expect(getState().currentRow).toBe(sampleTasks.length - 2);
+  });
+
+  test("When a committed task is removed and the current row is not at the end of the task, current row should stay in position", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const sampleTasks = Array(5);
+    const randomIndex = Math.min(
+      getRandomIndex(sampleTasks),
+      sampleTasks.length - 2
+    );
+
+    setState({ tasks: sampleTasks, currentRow: randomIndex });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(randomIndex);
+    expect(getState().currentRow).not.toBe(sampleTasks.length);
+
+    transition("D");
+
+    expect(getState().currentRow).toBe(randomIndex);
   });
 });

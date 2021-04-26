@@ -17,8 +17,13 @@ export function removeAtIndex(array: any[], index: number): any[] {
   return copy;
 }
 
-export function getRandomIndex(array: Array<any>): number {
-  return Math.floor(Math.random() * array.length);
+export function getRandomNumber(upperBound: number, lowerBound = 0): number {
+  const randomNumber = Math.floor(Math.random() * upperBound);
+  return Math.max(randomNumber, lowerBound);
+}
+
+export function getRandomIndex(array: any[]): number {
+  return getRandomNumber(array.length);
 }
 /* eslint-enable @typescript-eslint/no-explicit-any */
 /* eslint-enable @typescript-eslint/explicit-module-boundary-types */

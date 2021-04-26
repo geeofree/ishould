@@ -87,6 +87,22 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               });
               break;
 
+            case input === "D":
+              set((state) => {
+                if (state.tasks.length === 0) {
+                  return state;
+                }
+
+                return {
+                  tasks: removeAtIndex(state.tasks, state.currentRow),
+                  currentRow:
+                    state.currentRow === state.tasks.length - 1
+                      ? state.currentRow - 1
+                      : state.currentRow,
+                };
+              });
+              break;
+
             default:
               // NOOP
               break;
