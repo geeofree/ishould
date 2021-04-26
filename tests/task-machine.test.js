@@ -220,7 +220,7 @@ describe("Task Machine", () => {
     expect(currentTask.type).toBe(TASK_TYPE.DRAFT);
   });
 
-  test("When a committed task is going into DRAFT state, current column value should be equal to that committed task's name initially", () => {
+  test("When a committed task is going into DRAFT state, current column value should be equal to that committed task's name length initially", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
