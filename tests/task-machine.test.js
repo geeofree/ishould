@@ -5,7 +5,12 @@ import {
   DEFAULT_TASK_MACHINE_STATE,
 } from "../src/task-machine";
 import { MODE, TASK_TYPE } from "../src/types/enums";
-import { getRandomIndex, getRandomNumber, insertAtIndex } from "../src/utils";
+import {
+  getRandomIndex,
+  getRandomNumber,
+  insertAtIndex,
+  removeAtIndex,
+} from "../src/utils";
 
 const randomString = nanoid();
 
@@ -428,5 +433,37 @@ describe("Task Machine", () => {
     expect(currentTask.name.substr(randomIndex, testString.length)).toBe(
       testString
     );
+  });
+
+  test("Should be able to remove a single character from the task's name at the current column when updating", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const randomIndex = getRandomNumber(randomString.length + 1);
+
+    setState({
+      tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentCol: randomIndex,
+      mode: MODE.INSERT,
+    });
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentCol).toBe(randomIndex);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    transition("", { delete: true });
+
+    const currentTask = getState().getCurrentTask();
+    const expectedCurrentCol = Math.max(randomIndex - 1, 0);
+
+    expect(getState().currentCol).toBe(expectedCurrentCol);
+    expect(currentTask.name.length).toBe(randomString.length - 1);
+
+    const expectedTaskName = removeAtIndex(
+      randomString.split(""),
+      expectedCurrentCol
+    ).join("");
+
+    expect(currentTask.name).toBe(expectedTaskName);
   });
 });

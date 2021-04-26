@@ -186,6 +186,31 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               }));
               break;
 
+            case key?.delete:
+              set((state) => {
+                const currentTask = state.getCurrentTask();
+
+                const nextCurrentCol = Math.max(state.currentCol - 1, 0);
+
+                const nextDraftTaskName = removeAtIndex(
+                  currentTask.name.split(""),
+                  nextCurrentCol
+                ).join("");
+
+                const nexTasks = insertAtIndex(
+                  state.tasks,
+                  state.currentRow,
+                  { ...currentTask, name: nextDraftTaskName },
+                  true
+                );
+
+                return {
+                  tasks: nexTasks,
+                  currentCol: nextCurrentCol,
+                };
+              });
+              break;
+
             default:
               set((state) => {
                 const draftTask = state.tasks[state.currentRow];
