@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import createStoreHook from "zustand";
 import create from "zustand/vanilla";
 import { MODE, TASK_TYPE } from "./types/enums";
 import { Task, TaskMachineState } from "./types/interfaces";
@@ -249,3 +250,5 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
     },
   })
 );
+
+export const useTaskMachine = createStoreHook(taskMachine);
