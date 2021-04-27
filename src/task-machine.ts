@@ -15,7 +15,7 @@ export function createTask(taskType: TASK_TYPE, taskName = ""): Task {
 
 export const DEFAULT_TASK_MACHINE_STATE: TaskMachineState = {
   tasks: [],
-  currentRow: 0,
+  currentRow: -1,
   currentCol: -1,
   mode: MODE.NORMAL,
 };

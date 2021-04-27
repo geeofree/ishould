@@ -27,15 +27,23 @@ describe("Task Machine", () => {
     setState({ tasks });
 
     expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(-1);
+
+    transition("j");
     expect(getState().currentRow).toBe(0);
+
     transition("j");
     expect(getState().currentRow).toBe(1);
+
     transition("j");
     expect(getState().currentRow).toBe(2);
+
     transition("j");
     expect(getState().currentRow).toBe(3);
+
     transition("j");
     expect(getState().currentRow).toBe(4);
+
     transition("j");
     expect(getState().currentRow).toBe(0);
   });
@@ -48,15 +56,20 @@ describe("Task Machine", () => {
     setState({ tasks });
 
     expect(getState().mode).toBe(MODE.NORMAL);
-    expect(getState().currentRow).toBe(0);
+    expect(getState().currentRow).toBe(-1);
+
     transition("k");
     expect(getState().currentRow).toBe(4);
+
     transition("k");
     expect(getState().currentRow).toBe(3);
+
     transition("k");
     expect(getState().currentRow).toBe(2);
+
     transition("k");
     expect(getState().currentRow).toBe(1);
+
     transition("k");
     expect(getState().currentRow).toBe(0);
   });
@@ -248,23 +261,32 @@ describe("Task Machine", () => {
 
     setState({
       tasks: [createTask(TASK_TYPE.ONGOING, textString)],
+      currentRow: 0,
       currentCol: 0,
       mode: MODE.INSERT,
     });
 
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
     expect(getState().currentCol).toBe(0);
+
     transition("", { rightArrow: true });
     expect(getState().currentCol).toBe(1);
+
     transition("", { rightArrow: true });
     expect(getState().currentCol).toBe(2);
+
     transition("", { rightArrow: true });
     expect(getState().currentCol).toBe(3);
+
     transition("", { rightArrow: true });
     expect(getState().currentCol).toBe(4);
+
     transition("", { rightArrow: true });
     expect(getState().currentCol).toBe(textString.length);
+
     transition("", { rightArrow: true });
-    expect(getState().currentCol).toBe(5);
+    expect(getState().currentCol).toBe(textString.length);
   });
 
   test("Should be able to move column value backwards when task is being updated", () => {
@@ -275,21 +297,30 @@ describe("Task Machine", () => {
 
     setState({
       tasks: [createTask(TASK_TYPE.ONGOING, textString)],
+      currentRow: 0,
       currentCol: textString.length,
       mode: MODE.INSERT,
     });
 
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
     expect(getState().currentCol).toBe(textString.length);
+
     transition("", { leftArrow: true });
     expect(getState().currentCol).toBe(textString.length - 1);
+
     transition("", { leftArrow: true });
     expect(getState().currentCol).toBe(textString.length - 2);
+
     transition("", { leftArrow: true });
     expect(getState().currentCol).toBe(textString.length - 3);
+
     transition("", { leftArrow: true });
     expect(getState().currentCol).toBe(textString.length - 4);
+
     transition("", { leftArrow: true });
     expect(getState().currentCol).toBe(0);
+
     transition("", { leftArrow: true });
     expect(getState().currentCol).toBe(0);
   });
@@ -361,11 +392,13 @@ describe("Task Machine", () => {
 
     setState({
       tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentRow: 0,
       currentCol: 0,
       mode: MODE.INSERT,
     });
 
     expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
     expect(getState().currentCol).toBe(0);
     expect(getState().getCurrentTask().name).toBe(randomString);
 
@@ -386,11 +419,13 @@ describe("Task Machine", () => {
 
     setState({
       tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentRow: 0,
       currentCol: randomString.length,
       mode: MODE.INSERT,
     });
 
     expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
     expect(getState().currentCol).toBe(randomString.length);
     expect(getState().getCurrentTask().name).toBe(randomString);
 
@@ -413,11 +448,13 @@ describe("Task Machine", () => {
 
     setState({
       tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentRow: 0,
       currentCol: randomIndex,
       mode: MODE.INSERT,
     });
 
     expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
     expect(getState().currentCol).toBe(randomIndex);
     expect(getState().getCurrentTask().name).toBe(randomString);
 
@@ -443,25 +480,27 @@ describe("Task Machine", () => {
 
     setState({
       tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
+      currentRow: 0,
       currentCol: randomIndex,
       mode: MODE.INSERT,
     });
 
     expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
     expect(getState().currentCol).toBe(randomIndex);
     expect(getState().getCurrentTask().name).toBe(randomString);
 
     transition("", { delete: true });
 
     const currentTask = getState().getCurrentTask();
-    const expectedCurrentCol = Math.max(randomIndex - 1, 0);
+    const nextCurrentCol = Math.max(randomIndex - 1, 0);
 
-    expect(getState().currentCol).toBe(expectedCurrentCol);
+    expect(getState().currentCol).toBe(nextCurrentCol);
     expect(currentTask.name.length).toBe(randomString.length - 1);
 
     const expectedTaskName = removeAtIndex(
       randomString.split(""),
-      expectedCurrentCol
+      nextCurrentCol
     ).join("");
 
     expect(currentTask.name).toBe(expectedTaskName);
