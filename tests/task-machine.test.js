@@ -93,7 +93,7 @@ describe("Task Machine", () => {
     expect(draftTask.name).toBe("");
   });
 
-  test("Should be able to discard a task and transition from INSERT to NORMAL", () => {
+  test("When reverting back to NORMAL mode from INSERT mode using 'ESCAPE', draft task item should be discarded", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -108,11 +108,38 @@ describe("Task Machine", () => {
     transition("o");
     transition(randomString);
 
-    const draftTask = getState().getCurrentTask();
-    expect(draftTask.name).toBe(randomString);
+    const currentTask = getState().getCurrentTask();
+    expect(currentTask.name).toBe(randomString);
+    expect(currentTask.type).toBe(TASK_TYPE.DRAFT);
+    expect(getState().tasks.length).toBe(sampleTasks.length + 1);
 
     transition("", { escape: true });
     expect(getState().tasks).toEqual(sampleTasks);
+  });
+
+  test("DRAFTED ONGOING task should be reverted back to an ONGOING task when transitioning from INSERT to NORMAL using 'ESCAPE'", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({
+      tasks: [createTask(TASK_TYPE.ONGOING, randomString)],
+      currentRow: 0,
+    });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().tasks.length).toBe(1);
+
+    transition("i");
+    transition("", { escape: true });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().tasks.length).toBe(1);
+
+    const currentTask = getState().getCurrentTask();
+    expect(currentTask.name).toBe(randomString);
+    expect(currentTask.type).toBe(TASK_TYPE.ONGOING);
   });
 
   test("Should be able to commit a draft task then transition from INSERT to NORMAL mode", () => {
@@ -209,7 +236,8 @@ describe("Task Machine", () => {
     expect(getState().mode).toBe(MODE.INSERT);
 
     const currentTask = getState().getCurrentTask();
-    expect(currentTask.type).toBe(TASK_TYPE.DRAFT);
+    expect(currentTask.type).toBe(TASK_TYPE.DRAFT_ONGOING);
+    expect(currentTask.name).toBe(randomString);
   });
 
   test("When a committed task is going into DRAFT state, current column value should be equal to that committed task's name length initially", () => {

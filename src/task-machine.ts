@@ -77,7 +77,7 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
                 const newTasks = insertAtIndex(
                   state.tasks,
                   state.currentRow,
-                  { ...currentTask, type: TASK_TYPE.DRAFT },
+                  { ...currentTask, type: TASK_TYPE.DRAFT_ONGOING },
                   true
                 );
 
@@ -115,11 +115,31 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
         case MODE.INSERT: {
           switch (true) {
             case key?.escape:
-              set((state) => ({
-                mode: MODE.NORMAL,
-                tasks: removeAtIndex(state.tasks, state.currentRow),
-                currentRow: Math.max(state.currentRow - 1, 0),
-              }));
+              set((state) => {
+                const currentTask = state.getCurrentTask();
+
+                if (currentTask.type === TASK_TYPE.DRAFT) {
+                  return {
+                    mode: MODE.NORMAL,
+                    tasks: removeAtIndex(state.tasks, state.currentRow),
+                    currentRow: Math.max(state.currentRow - 1, 0),
+                  };
+                }
+
+                if (currentTask.type === TASK_TYPE.DRAFT_ONGOING) {
+                  return {
+                    mode: MODE.NORMAL,
+                    tasks: insertAtIndex(
+                      state.tasks,
+                      state.currentRow,
+                      { ...currentTask, type: TASK_TYPE.ONGOING },
+                      true
+                    ),
+                  };
+                }
+
+                return state;
+              });
               break;
 
             case key?.shift && key?.return:
