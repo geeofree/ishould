@@ -2,9 +2,11 @@
   "name": "ishould",
   "version": "0.0.0",
   "description": "Stupid CLI TODO-List",
-  "main": "lib/index.js",
+  "main": "lib/main.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "babel src -d lib --extensions '.tsx,.ts'",
+    "dev": "npm run build && npx ."
   },
   "repository": {
     "type": "git",
@@ -23,8 +25,10 @@
   },
   "homepage": "https://github.com/geeofree/ishould#readme",
   "dependencies": {
+    "@types/react": "^17.0.3",
     "ink": "^3.0.8",
     "nanoid": "^3.1.22",
+    "react": "^17.0.2",
     "zustand": "^3.4.1"
   },
   "devDependencies": {
