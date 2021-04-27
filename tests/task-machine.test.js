@@ -5,12 +5,7 @@ import {
   DEFAULT_TASK_MACHINE_STATE,
 } from "../src/task-machine";
 import { MODE, TASK_TYPE } from "../src/types/enums";
-import {
-  getRandomIndex,
-  getRandomNumber,
-  insertAtIndex,
-  removeAtIndex,
-} from "../src/utils";
+import { getRandomIndex, getRandomNumber, removeAtIndex } from "../src/utils";
 
 const randomString = nanoid();
 
@@ -113,7 +108,7 @@ describe("Task Machine", () => {
     transition("o");
     transition(randomString);
 
-    const draftTask = getState().tasks[randomIndex + 1];
+    const draftTask = getState().getCurrentTask();
     expect(draftTask.name).toBe(randomString);
 
     transition("", { escape: true });
