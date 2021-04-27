@@ -84,16 +84,18 @@ describe("Task Machine", () => {
     setState({ tasks: sampleTasks, currentRow: randomIndex });
 
     expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(randomIndex);
+    expect(getState().currentCol).toBe(-1);
+
     transition("o");
     expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(randomIndex + 1);
+    expect(getState().currentCol).toBe(0);
 
-    const nextRow = randomIndex + 1;
-    const insertedTaskAtRandomIndex = getState().tasks[nextRow];
-
+    const draftTask = getState().getCurrentTask();
     expect(getState().tasks.length).toBe(sampleTasks.length + 1);
-    expect(getState().currentRow).toBe(nextRow);
-    expect(insertedTaskAtRandomIndex.type).toBe(TASK_TYPE.DRAFT);
-    expect(insertedTaskAtRandomIndex.name).toBe("");
+    expect(draftTask.type).toBe(TASK_TYPE.DRAFT);
+    expect(draftTask.name).toBe("");
   });
 
   test("Should be able to update the draft task's name during INSERT mode", () => {

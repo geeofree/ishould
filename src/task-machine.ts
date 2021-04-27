@@ -57,6 +57,7 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               set((state) => ({
                 mode: MODE.INSERT,
                 currentRow: state.currentRow + 1,
+                currentCol: 0,
                 tasks: insertAtIndex(
                   state.tasks,
                   state.currentRow + 1,
