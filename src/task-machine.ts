@@ -105,6 +105,27 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               });
               break;
 
+            case input === " ":
+              set((state) => {
+                const currentTask = state.getCurrentTask();
+
+                return {
+                  tasks: insertAtIndex(
+                    state.tasks,
+                    state.currentRow,
+                    {
+                      ...currentTask,
+                      type:
+                        currentTask.type === TASK_TYPE.ONGOING
+                          ? TASK_TYPE.FINISHED
+                          : TASK_TYPE.ONGOING,
+                    },
+                    true
+                  ),
+                };
+              });
+              break;
+
             default:
               // NOOP
               break;

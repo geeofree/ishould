@@ -523,4 +523,29 @@ describe("Task Machine", () => {
 
     expect(currentTask.name).toBe(expectedTaskName);
   });
+
+  test("Should be able to toggle a task item from ONGOING to FINISHED and vice versa", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const sampleTasks = Array(5)
+      .fill()
+      .map(() => createTask(TASK_TYPE.ONGOING, nanoid()));
+    const randomIndex = getRandomIndex(sampleTasks);
+
+    setState({
+      tasks: sampleTasks,
+      currentRow: randomIndex,
+    });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(randomIndex);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
+
+    transition(" ");
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.FINISHED);
+
+    transition(" ");
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
+  });
 });
