@@ -98,29 +98,6 @@ describe("Task Machine", () => {
     expect(draftTask.name).toBe("");
   });
 
-  test("Should be able to update the draft task's name during INSERT mode", () => {
-    const { getState, setState } = taskMachine;
-    const { transition } = getState();
-
-    const sampleTasks = Array(5);
-    const randomIndex = getRandomIndex(sampleTasks);
-
-    setState({
-      tasks: insertAtIndex(
-        sampleTasks,
-        randomIndex,
-        createTask(TASK_TYPE.DRAFT)
-      ),
-      currentRow: randomIndex,
-      mode: MODE.INSERT,
-    });
-
-    transition(randomString);
-
-    const taskAtRandomIndex = getState().tasks[randomIndex];
-    expect(taskAtRandomIndex.name).toBe(randomString);
-  });
-
   test("Should be able to discard a task and transition from INSERT to NORMAL", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
