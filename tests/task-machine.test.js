@@ -5,7 +5,12 @@ import {
   DEFAULT_TASK_MACHINE_STATE,
 } from "../src/task-machine";
 import { MODE, TASK_TYPE } from "../src/types/enums";
-import { getRandomIndex, getRandomNumber, removeAtIndex } from "../src/utils";
+import {
+  getRandomIndex,
+  getRandomNumber,
+  insertAtIndex,
+  removeAtIndex,
+} from "../src/utils";
 
 const randomString = nanoid();
 
@@ -93,7 +98,7 @@ describe("Task Machine", () => {
     expect(draftTask.name).toBe("");
   });
 
-  test("When reverting back to NORMAL mode from INSERT mode using 'ESCAPE', draft task item should be discarded", () => {
+  test("DRAFT task item should be discarded when 'ESC' is inputted", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -101,23 +106,34 @@ describe("Task Machine", () => {
     const randomIndex = getRandomIndex(sampleTasks);
 
     setState({
-      tasks: sampleTasks,
+      tasks: insertAtIndex(
+        sampleTasks,
+        randomIndex,
+        createTask(TASK_TYPE.DRAFT),
+        true
+      ),
       currentRow: randomIndex,
+      mode: MODE.INSERT,
     });
 
-    transition("o");
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(randomIndex);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.DRAFT);
+    expect(getState().getCurrentTask().name).toBe("");
+
     transition(randomString);
 
-    const currentTask = getState().getCurrentTask();
-    expect(currentTask.name).toBe(randomString);
-    expect(currentTask.type).toBe(TASK_TYPE.DRAFT);
-    expect(getState().tasks.length).toBe(sampleTasks.length + 1);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.DRAFT);
+    expect(getState().getCurrentTask().name).toBe(randomString);
 
     transition("", { escape: true });
-    expect(getState().tasks).toEqual(sampleTasks);
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(randomIndex - 1);
+    expect(getState().tasks.length).toEqual(sampleTasks.length - 1);
   });
 
-  test("DRAFTED ONGOING task should be reverted back to an ONGOING task when transitioning from INSERT to NORMAL using 'ESCAPE'", () => {
+  test("ONGOING_DRAFT task item should be reverted back to a DRAFT task item when 'ESC' is inputted", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 

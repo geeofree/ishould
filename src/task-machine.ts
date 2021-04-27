@@ -118,27 +118,35 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               set((state) => {
                 const currentTask = state.getCurrentTask();
 
-                if (currentTask.type === TASK_TYPE.DRAFT) {
-                  return {
-                    mode: MODE.NORMAL,
-                    tasks: removeAtIndex(state.tasks, state.currentRow),
-                    currentRow: Math.max(state.currentRow - 1, 0),
-                  };
-                }
+                let nextCurrentRow: number;
+                let nextTasks: Task[];
 
-                if (currentTask.type === TASK_TYPE.DRAFT_ONGOING) {
-                  return {
-                    mode: MODE.NORMAL,
-                    tasks: insertAtIndex(
+                switch (currentTask.type) {
+                  case TASK_TYPE.DRAFT:
+                    nextCurrentRow = state.currentRow - 1;
+                    nextTasks = removeAtIndex(state.tasks, state.currentRow);
+                    break;
+
+                  case TASK_TYPE.DRAFT_ONGOING:
+                    nextCurrentRow = state.currentRow;
+                    nextTasks = insertAtIndex(
                       state.tasks,
                       state.currentRow,
                       { ...currentTask, type: TASK_TYPE.ONGOING },
                       true
-                    ),
-                  };
+                    );
+                    break;
+
+                  default:
+                    // no-op
+                    break;
                 }
 
-                return state;
+                return {
+                  mode: MODE.NORMAL,
+                  currentRow: nextCurrentRow,
+                  tasks: nextTasks,
+                };
               });
               break;
 
