@@ -5,8 +5,8 @@
   "main": "lib/main.js",
   "scripts": {
     "test": "jest",
-    "build": "babel src -d lib --extensions '.tsx,.ts'",
-    "dev": "npm run build && npx ."
+    "build:dev": "babel src -d .dev --extensions '.tsx,.ts'",
+    "dev": "npm run build:dev && node ./.dev/main.js"
   },
   "repository": {
     "type": "git",
