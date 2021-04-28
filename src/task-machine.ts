@@ -70,11 +70,15 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
 
             case input === "i":
               set((state) => {
-                if (state.tasks.length === 0) {
+                const currentTask = state.getCurrentTask();
+
+                if (
+                  state.tasks.length === 0 ||
+                  currentTask.type === TASK_TYPE.FINISHED
+                ) {
                   return state;
                 }
 
-                const currentTask = state.getCurrentTask();
                 const newTasks = insertAtIndex(
                   state.tasks,
                   state.currentRow,

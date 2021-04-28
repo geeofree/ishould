@@ -585,4 +585,25 @@ describe("Task Machine", () => {
     transition(" ");
     expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
   });
+
+  test("Should not be able to update a FINISHED task", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({
+      tasks: [createTask(TASK_TYPE.FINISHED, randomString)],
+      currentRow: 0,
+    });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.FINISHED);
+
+    transition("i");
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.FINISHED);
+  });
 });
