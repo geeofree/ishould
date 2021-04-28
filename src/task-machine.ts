@@ -171,7 +171,7 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               });
               break;
 
-            case key?.shift && key?.return:
+            case key?.ctrl && input === "o":
               set((state) => {
                 const draftTask = state.tasks[state.currentRow];
 

@@ -196,7 +196,7 @@ describe("Task Machine", () => {
 
     transition("o");
     transition(randomString);
-    transition("", { shift: true, return: true });
+    transition("o", { ctrl: true });
 
     expect(getState().mode).toBe(MODE.INSERT);
     expect(getState().tasks.length).toBe(sampleTasks.length + 2);
