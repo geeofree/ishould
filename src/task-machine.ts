@@ -55,7 +55,7 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               });
               break;
 
-            case input === "o":
+            case input === "i":
               set((state) => ({
                 mode: MODE.INSERT,
                 currentRow: state.currentRow + 1,
@@ -68,7 +68,7 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               }));
               break;
 
-            case input === "i":
+            case input === "u":
               set((state) => {
                 const currentTask = state.getCurrentTask();
 

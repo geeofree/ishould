@@ -87,7 +87,7 @@ describe("Task Machine", () => {
     expect(getState().currentRow).toBe(randomIndex);
     expect(getState().currentCol).toBe(-1);
 
-    transition("o");
+    transition("i");
     expect(getState().mode).toBe(MODE.INSERT);
     expect(getState().currentRow).toBe(randomIndex + 1);
     expect(getState().currentCol).toBe(0);
@@ -174,7 +174,7 @@ describe("Task Machine", () => {
     expect(getState().getCurrentTask().name).toBe(randomString);
     expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
 
-    transition("i");
+    transition("u");
 
     expect(getState().mode).toBe(MODE.INSERT);
     expect(getState().currentRow).toBe(0);
@@ -207,7 +207,7 @@ describe("Task Machine", () => {
       currentRow: randomIndex,
     });
 
-    transition("o");
+    transition("i");
     transition(randomString);
     transition("", { return: true });
 
@@ -231,7 +231,7 @@ describe("Task Machine", () => {
       currentRow: randomIndex,
     });
 
-    transition("o");
+    transition("i");
     transition(randomString);
     transition("o", { ctrl: true });
 
@@ -259,7 +259,7 @@ describe("Task Machine", () => {
       currentRow: randomIndex,
     });
 
-    transition("o");
+    transition("i");
     transition("", { return: true });
     transition("", { shift: true, return: true });
 
@@ -284,7 +284,7 @@ describe("Task Machine", () => {
     expect(getState().mode).toBe(MODE.NORMAL);
     expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
 
-    transition("i");
+    transition("u");
     expect(getState().currentRow).toBe(randomIndex);
     expect(getState().mode).toBe(MODE.INSERT);
 
@@ -600,7 +600,7 @@ describe("Task Machine", () => {
     expect(getState().getCurrentTask().name).toBe(randomString);
     expect(getState().getCurrentTask().type).toBe(TASK_TYPE.FINISHED);
 
-    transition("i");
+    transition("u");
 
     expect(getState().mode).toBe(MODE.NORMAL);
     expect(getState().getCurrentTask().name).toBe(randomString);
@@ -616,7 +616,7 @@ describe("Task Machine", () => {
     expect(getState().currentCol).toBe(-1);
     expect(getState().tasks).toHaveLength(0);
 
-    transition("o");
+    transition("i");
     transition(randomString);
 
     expect(getState().mode).toBe(MODE.INSERT);
