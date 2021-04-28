@@ -158,6 +158,43 @@ describe("Task Machine", () => {
     expect(currentTask.type).toBe(TASK_TYPE.ONGOING);
   });
 
+  test("When reverting an ONGOING_DRAFT to ONGOING, the task's name should revert back to the original name", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    const sampleText = "hello";
+
+    setState({
+      tasks: [createTask(TASK_TYPE.ONGOING, randomString)],
+      currentRow: 0,
+    });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
+
+    transition("i");
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.DRAFT_ONGOING);
+
+    transition(sampleText);
+
+    expect(getState().currentCol).toBe(getState().getCurrentTask().name.length);
+    expect(getState().getCurrentTask().name).toBe(randomString + sampleText);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.DRAFT_ONGOING);
+
+    transition("", { escape: true });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().getCurrentTask().type).toBe(TASK_TYPE.ONGOING);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+  });
+
   test("Should be able to commit a draft task then transition from INSERT to NORMAL mode", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();

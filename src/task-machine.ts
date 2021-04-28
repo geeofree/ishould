@@ -15,6 +15,7 @@ export function createTask(taskType: TASK_TYPE, taskName = ""): Task {
 }
 
 export const DEFAULT_TASK_MACHINE_STATE: TaskMachineState = {
+  origDraftOngoingTaskName: null,
   tasks: [],
   currentRow: -1,
   currentCol: -1,
@@ -84,6 +85,7 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
                 return {
                   mode: MODE.INSERT,
                   tasks: newTasks,
+                  origDraftOngoingTaskName: currentTask.name,
                   currentCol: currentTask.name.length,
                 };
               });
@@ -153,7 +155,11 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
                     nextTasks = insertAtIndex(
                       state.tasks,
                       state.currentRow,
-                      { ...currentTask, type: TASK_TYPE.ONGOING },
+                      {
+                        ...currentTask,
+                        type: TASK_TYPE.ONGOING,
+                        name: state.origDraftOngoingTaskName,
+                      },
                       true
                     );
                     break;
@@ -164,6 +170,8 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
                 }
 
                 return {
+                  origDraftOngoingTaskName:
+                    DEFAULT_TASK_MACHINE_STATE.origDraftOngoingTaskName,
                   mode: MODE.NORMAL,
                   currentRow: nextCurrentRow,
                   tasks: nextTasks,

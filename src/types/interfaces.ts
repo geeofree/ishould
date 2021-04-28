@@ -8,6 +8,7 @@ export interface Task {
 }
 
 export interface TaskMachineState extends State {
+  origDraftOngoingTaskName: string | null;
   tasks: Task[];
   currentRow: number;
   currentCol: number;
