@@ -202,6 +202,7 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
 
                 return {
                   tasks: newTasks,
+                  currentCol: 0,
                   currentRow: nextCurrentRow,
                 };
               });

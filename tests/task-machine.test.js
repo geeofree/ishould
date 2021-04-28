@@ -606,4 +606,29 @@ describe("Task Machine", () => {
     expect(getState().getCurrentTask().name).toBe(randomString);
     expect(getState().getCurrentTask().type).toBe(TASK_TYPE.FINISHED);
   });
+
+  test("Current column value should be set to 0 when doing a commit-insert", () => {
+    const { getState } = taskMachine;
+    const { transition } = getState();
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(-1);
+    expect(getState().currentCol).toBe(-1);
+    expect(getState().tasks).toHaveLength(0);
+
+    transition("o");
+    transition(randomString);
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().tasks).toHaveLength(1);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().currentCol).toBe(randomString.length);
+
+    transition("o", { ctrl: true });
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().tasks).toHaveLength(2);
+    expect(getState().currentRow).toBe(1);
+    expect(getState().currentCol).toBe(0);
+  });
 });
