@@ -190,26 +190,6 @@ describe("Task UI", () => {
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
 
-  test("Should be able to COMMIT-INSERT a task", async () => {
-    const renderer = await getRenderer(<App title="TODO" />);
-
-    expect(renderer.lastFrame()).toMatchSnapshot();
-    await renderer.input("i");
-    expect(renderer.lastFrame()).toMatchSnapshot();
-
-    await renderer.input("Alpha");
-    await renderer.input("\u000f");
-    expect(renderer.lastFrame()).toMatchSnapshot();
-
-    await renderer.input("Beta");
-    await renderer.input("\u000f");
-    expect(renderer.lastFrame()).toMatchSnapshot();
-
-    await renderer.input("Gamma");
-    await renderer.input("\u000f");
-    expect(renderer.lastFrame()).toMatchSnapshot();
-  });
-
   test("Should be able to discard a DRAFT task", async () => {
     const renderer = await getRenderer(<App title="TODO" />);
     expect(renderer.lastFrame()).toMatchSnapshot();
@@ -341,4 +321,17 @@ describe("Task UI", () => {
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
 
+  test("Should be able to add an infix to a task's name", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+    await renderer.input("hello");
+    taskMachine.setState({ currentCol: 2 });
+
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("y, he");
+
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
 });
