@@ -1,11 +1,12 @@
 {
   "name": "ishould",
   "version": "0.0.0",
-  "description": "Stupid CLI TODO-List",
+  "description": "NodeJS interactive CLI TODO list",
   "main": "lib/main.js",
   "scripts": {
     "test": "jest",
     "build:dev": "babel src -d .dev --extensions '.tsx,.ts'",
+    "build:prod": "babel src -d lib --extensions '.tsx,.ts'",
     "dev": "npm run build:dev && node ./.dev/main.js"
   },
   "repository": {
