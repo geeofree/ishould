@@ -285,8 +285,32 @@ describe("Task UI", () => {
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
 
-  /**
-   * TODO: Create assertions for the ff. cases:
-   *  - Should be able to remove a committed task
-   **/
+  test("Should be able to remove a committed task", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+
+    await renderer.input("Alpha");
+    await renderer.input("\u000f");
+
+    await renderer.input("Beta");
+    await renderer.input("\u000f");
+
+    await renderer.input("Gamma");
+    await renderer.input("\r");
+
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("D");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("D");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("D");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("D");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
 });
