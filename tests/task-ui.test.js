@@ -328,4 +328,17 @@ describe("Task UI", () => {
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
 
+  test("Should be able to add a suffix to a task's name", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+    await renderer.input("hello");
+
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input(" world");
+
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
+
 });
