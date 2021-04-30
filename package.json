@@ -30,6 +30,7 @@
     "ink": "^3.0.8",
     "nanoid": "^3.1.22",
     "react": "^17.0.2",
+    "yargs": "^16.2.0",
     "zustand": "^3.4.1"
   },
   "devDependencies": {

@@ -1,8 +1,8 @@
 # ishould
-An interactive CLI TODO list
+An interactive CLI TODO list on NodeJS.
 
 # Usage
-Run the script: `npx ishould`
+Run the script: `npx ishould [title] [options]`.
 
 # Key commands
 **NORMAL MODE**
