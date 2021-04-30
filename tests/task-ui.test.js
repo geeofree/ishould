@@ -334,4 +334,17 @@ describe("Task UI", () => {
 
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
+
+  test("Should not be able to commit a DRAFT task with an empty name", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+    await renderer.input("\r");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("hello there");
+    await renderer.input("\u000f");
+    await renderer.input("\r");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
 });
