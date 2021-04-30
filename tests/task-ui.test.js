@@ -313,4 +313,19 @@ describe("Task UI", () => {
     await renderer.input("D");
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
+
+  test("Should be able to add a prefix to a task's name", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+    await renderer.input("hello");
+    taskMachine.setState({ currentCol: 0 });
+
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("hi, ");
+
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
+
 });
