@@ -16,6 +16,7 @@ const argv = yargs(process.argv.slice(2))
       });
     }
   )
+  .alias("v", "version")
   .alias("h", "help")
   .help().argv;
 
