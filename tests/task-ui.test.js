@@ -235,9 +235,24 @@ describe("Task UI", () => {
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
 
+  test("Should be able to discard uncommitted changes of an ONGOING task", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+    await renderer.input("Gamma");
+    await renderer.input("\r");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("u");
+    await renderer.input(" Ray");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("\u001b");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
+
   /**
    * TODO: Create assertions for the ff. cases:
-   *  - Should be able to discard uncommitted changes of an ONGOING task
    *  - Should be able to toggle a task from ONGOING to FINISHED and vice versa
    *  - Should not be able update a FINISHED task
    *  - Should be able to remove a committed task
