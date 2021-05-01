@@ -9,6 +9,9 @@
     "build:prod": "babel src -d lib --extensions '.tsx,.ts'",
     "dev": "npm run build:dev && node ./.dev/main.js"
   },
+  "bin": {
+    "ishould": "./lib/main.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/geeofree/ishould.git"
