@@ -2,7 +2,7 @@
   "name": "ishould",
   "version": "0.0.0",
   "description": "NodeJS interactive CLI TODO list",
-  "main": "lib/main.js",
+  "main": "./lib/main.js",
   "scripts": {
     "test": "jest",
     "build:dev": "babel src -d .dev --extensions '.tsx,.ts'",
