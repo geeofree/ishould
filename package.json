@@ -2,16 +2,15 @@
   "name": "ishould",
   "version": "0.0.4",
   "description": "NodeJS interactive CLI TODO list",
-  "main": "./lib/main.js",
+  "bin": {
+    "ishould": "./lib/main.js"
+  },
   "scripts": {
     "prepare": "husky install",
     "test": "jest",
     "build:dev": "babel src -d .dev --extensions '.tsx,.ts'",
     "build:prod": "babel src -d lib --extensions '.tsx,.ts'",
     "dev": "npm run build:dev && node ./.dev/main.js"
-  },
-  "bin": {
-    "ishould": "./lib/main.js"
   },
   "repository": {
     "type": "git",
