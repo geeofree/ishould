@@ -1,0 +1,14 @@
+language: node_js
+
+node_js: 10
+
+script: npm test
+
+before_deploy: npm run build:prod
+
+deploy:
+  provider: script
+  script: npx semantic-release
+  skip_cleanup: true
+  on:
+    branch: master
