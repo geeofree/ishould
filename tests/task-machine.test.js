@@ -531,7 +531,7 @@ describe("Task Machine", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
-    const randomIndex = getRandomNumber(randomString.length + 1);
+    const randomIndex = getRandomNumber(randomString.length + 1, 1);
 
     setState({
       tasks: [createTask(TASK_TYPE.DRAFT, randomString)],
