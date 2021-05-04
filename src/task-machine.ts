@@ -247,6 +247,10 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
 
             case key?.delete:
               set((state) => {
+                if (state.currentCol === 0) {
+                  return state;
+                }
+
                 const currentTask = state.getCurrentTask();
 
                 const nextCurrentCol = Math.max(state.currentCol - 1, 0);

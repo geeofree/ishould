@@ -631,4 +631,26 @@ describe("Task Machine", () => {
     expect(getState().currentRow).toBe(1);
     expect(getState().currentCol).toBe(0);
   });
+
+  test("Should not be able to delete a character when current column is 0", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({
+      tasks: [createTask(TASK_TYPE.ONGOING, randomString)],
+      currentCol: 0,
+      currentRow: 0,
+      mode: MODE.INSERT,
+    });
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().currentCol).toBe(0);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    transition("", { delete: true });
+
+    expect(getState().currentCol).toBe(0);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+  });
 });

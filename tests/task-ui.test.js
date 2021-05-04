@@ -347,4 +347,18 @@ describe("Task UI", () => {
     await renderer.input("\r");
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
+
+  test("Should not be able to delete a character when cursor is at start of the task's name", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+    await renderer.input("Alpha");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    taskMachine.setState({ currentCol: 0 });
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("\u007f");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
 });
