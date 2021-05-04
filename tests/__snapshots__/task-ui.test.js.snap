@@ -440,6 +440,32 @@ exports[`Task UI Should be able to insert tasks 6`] = `
 "
 `;
 
+exports[`Task UI Should be able to move cursor at the start of task's name 1`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
+exports[`Task UI Should be able to move cursor at the start of task's name 2`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
 exports[`Task UI Should be able to navigate through each character backwards when editing a task 1`] = `
 "
  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓

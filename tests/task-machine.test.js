@@ -653,4 +653,27 @@ describe("Task Machine", () => {
     expect(getState().currentCol).toBe(0);
     expect(getState().getCurrentTask().name).toBe(randomString);
   });
+
+  test("Should be able to move column at the start of task's name", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({
+      tasks: [createTask(TASK_TYPE.ONGOING, randomString)],
+      currentRow: 0,
+    });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().currentCol).toBe(-1);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    transition("u");
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().currentCol).toBe(randomString.length);
+
+    transition("a", { ctrl: true });
+    expect(getState().currentCol).toBe(0);
+  });
 });
