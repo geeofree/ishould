@@ -833,6 +833,45 @@ exports[`Task UI Should not be able to commit a DRAFT task with an empty name 2`
 "
 `;
 
+exports[`Task UI Should not be able to delete a character when cursor is at start of the task's name 1`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
+exports[`Task UI Should not be able to delete a character when cursor is at start of the task's name 2`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
+exports[`Task UI Should not be able to delete a character when cursor is at start of the task's name 3`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
 exports[`Task UI Should not be able update a FINISHED task 1`] = `
 "
  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
