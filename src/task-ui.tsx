@@ -96,12 +96,14 @@ interface AppProps {
 function App(props: AppProps): ReactElement {
   const { title } = props;
   return (
-    <Box padding={1} margin={1} borderStyle="bold" flexDirection="column">
-      <Box marginBottom={1}>
-        <Text color="magenta">{title}</Text>
-      </Box>
+    <Box padding={1}>
+      <Box padding={1} borderStyle="bold" flexDirection="column" width={56}>
+        <Box marginBottom={1}>
+          <Text color="magenta">{title}</Text>
+        </Box>
 
-      <Tasks />
+        <Tasks />
+      </Box>
     </Box>
   );
 }
