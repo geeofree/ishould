@@ -654,7 +654,7 @@ describe("Task Machine", () => {
     expect(getState().getCurrentTask().name).toBe(randomString);
   });
 
-  test("Should be able to move column at the start of task's name", () => {
+  test("Should be able to move column at the start of the task's name", () => {
     const { getState, setState } = taskMachine;
     const { transition } = getState();
 
@@ -675,5 +675,37 @@ describe("Task Machine", () => {
 
     transition("a", { ctrl: true });
     expect(getState().currentCol).toBe(0);
+  });
+
+  test("Should be able to move column at end start of the task's name", () => {
+    const { getState, setState } = taskMachine;
+    const { transition } = getState();
+
+    setState({
+      tasks: [createTask(TASK_TYPE.ONGOING, randomString)],
+      currentRow: 0,
+    });
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().currentCol).toBe(-1);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    transition("u");
+    transition("a", { ctrl: true });
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().currentCol).toBe(0);
+
+    transition("e", { ctrl: true });
+    expect(getState().currentCol).toBe(randomString.length);
+
+    transition("", { leftArrow: true });
+    transition("", { leftArrow: true });
+    transition("", { leftArrow: true });
+    expect(getState().currentCol).toBe(randomString.length - 3);
+
+    transition("e", { ctrl: true });
+    expect(getState().currentCol).toBe(randomString.length);
   });
 });

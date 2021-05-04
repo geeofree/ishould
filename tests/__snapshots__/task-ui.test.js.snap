@@ -440,6 +440,71 @@ exports[`Task UI Should be able to insert tasks 6`] = `
 "
 `;
 
+exports[`Task UI Should be able to move cursor at the end of task's name 1`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
+exports[`Task UI Should be able to move cursor at the end of task's name 2`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
+exports[`Task UI Should be able to move cursor at the end of task's name 3`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
+exports[`Task UI Should be able to move cursor at the end of task's name 4`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
+exports[`Task UI Should be able to move cursor at the end of task's name 5`] = `
+"
+ ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+ ┃                                                      ┃
+ ┃ TODO                                                 ┃
+ ┃                                                      ┃
+ ┃ ➜  *  Alpha                                          ┃
+ ┃                                                      ┃
+ ┃                                                      ┃
+ ┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┛
+"
+`;
+
 exports[`Task UI Should be able to move cursor at the start of task's name 1`] = `
 "
  ┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
