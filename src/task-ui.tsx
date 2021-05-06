@@ -1,6 +1,10 @@
 import React, { ReactElement } from "react";
 import { Box, Text, useInput } from "ink";
-import { useTaskMachine } from "./task-machine";
+import {
+  useTaskMachine,
+  useBootFromSaveFile,
+  useWriteToSaveFile,
+} from "./hooks";
 import { Task } from "./types/interfaces";
 import { TASK_TYPE } from "./types/enums";
 
@@ -8,6 +12,14 @@ interface TaskItemProps {
   task: Task;
   isFocused: boolean;
   currentCol: number;
+}
+
+interface TaskProps {
+  filePath: string;
+}
+
+interface AppProps {
+  title: string;
 }
 
 function TaskItem(props: TaskItemProps): ReactElement {
@@ -65,10 +77,13 @@ function TaskItem(props: TaskItemProps): ReactElement {
   );
 }
 
-function Tasks(): ReactElement {
+function Tasks(props: TaskProps): ReactElement {
+  const { filePath } = props;
   const taskMachine = useTaskMachine();
   const { tasks, transition, currentRow, currentCol } = taskMachine;
 
+  useBootFromSaveFile(filePath);
+  useWriteToSaveFile(filePath);
   useInput(transition);
 
   if (tasks.length === 0) {
@@ -89,12 +104,8 @@ function Tasks(): ReactElement {
   );
 }
 
-interface AppProps {
-  title: string;
-}
-
-function App(props: AppProps): ReactElement {
-  const { title } = props;
+function App(props: AppProps & TaskProps): ReactElement {
+  const { title, filePath } = props;
   return (
     <Box padding={1}>
       <Box padding={1} borderStyle="bold" flexDirection="column" width={56}>
@@ -102,7 +113,7 @@ function App(props: AppProps): ReactElement {
           <Text color="magenta">{title}</Text>
         </Box>
 
-        <Tasks />
+        <Tasks filePath={filePath} />
       </Box>
     </Box>
   );

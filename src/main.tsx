@@ -14,10 +14,16 @@ const argv = yargs(process.argv.slice(2))
         type: "string",
         describe: "The title of the TODO list",
       });
+
+      yargs.positional("file", {
+        type: "string",
+        describe: "File to boot from and save into",
+        alias: "f",
+      });
     }
   )
   .alias("v", "version")
   .alias("h", "help")
   .help().argv;
 
-render(<App title={argv.title as string} />);
+render(<App title={argv.title as string} filePath={argv.file as string} />);
