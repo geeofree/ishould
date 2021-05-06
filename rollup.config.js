@@ -6,7 +6,7 @@ const dependencies = Object.keys(packageJSON.dependencies);
 
 export default {
   input: "src/main.tsx",
-  external: [...dependencies, "zustand/vanilla"],
+  external: [...dependencies, "zustand/vanilla", "fs", "path", "util"],
   output: {
     dir: "lib",
     format: "cjs",
