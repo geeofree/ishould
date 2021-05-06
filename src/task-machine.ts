@@ -218,6 +218,18 @@ export const taskMachine = create<TaskMachineState & TaskMachineStateMethods>(
               }));
               break;
 
+            case key?.ctrl && input === "u":
+              set((state) => ({
+                currentCol: 0,
+                tasks: insertAtIndex(
+                  state.tasks,
+                  state.currentRow,
+                  { ...state.getCurrentTask(), name: "" },
+                  true
+                ),
+              }));
+              break;
+
             case key?.return:
               set((state) => {
                 const draftTask = state.tasks[state.currentRow];

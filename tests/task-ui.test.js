@@ -394,4 +394,15 @@ describe("Task UI", () => {
     await renderer.input("\u0005");
     expect(renderer.lastFrame()).toMatchSnapshot();
   });
+
+  test("Should be able to move cursor at the end of task's name", async () => {
+    const renderer = await getRenderer(<App title="TODO" />);
+
+    await renderer.input("i");
+    await renderer.input("Alpha");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+
+    await renderer.input("\u0015");
+    expect(renderer.lastFrame()).toMatchSnapshot();
+  });
 });

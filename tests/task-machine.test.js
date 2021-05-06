@@ -708,4 +708,27 @@ describe("Task Machine", () => {
     transition("e", { ctrl: true });
     expect(getState().currentCol).toBe(randomString.length);
   });
+
+  test("Should be able to clear a task's name when editing", () => {
+    const { getState } = taskMachine;
+    const { transition } = getState();
+
+    expect(getState().mode).toBe(MODE.NORMAL);
+    expect(getState().currentRow).toBe(-1);
+    expect(getState().currentCol).toBe(-1);
+    expect(getState().tasks).toHaveLength(0);
+
+    transition("i");
+    transition(randomString);
+
+    expect(getState().mode).toBe(MODE.INSERT);
+    expect(getState().currentRow).toBe(0);
+    expect(getState().tasks).toHaveLength(1);
+    expect(getState().currentCol).toBe(randomString.length);
+    expect(getState().getCurrentTask().name).toBe(randomString);
+
+    transition("u", { ctrl: true });
+    expect(getState().currentCol).toBe(0);
+    expect(getState().getCurrentTask().name).toBe("");
+  });
 });
